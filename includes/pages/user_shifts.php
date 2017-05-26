@@ -144,13 +144,6 @@ function view_user_shifts() {
           'name' => _("free")
       ]
   ];
-  if ($shiftsFilter->getStartTime() == null) {
-    $shiftsFilter->setStartTime(strtotime('today at midnight'));
-  }
-  if ($shiftsFilter->getEndTime() == null) {
-    $shiftsFilter->setEndTime(strtotime('today at midnight'));
-    $shiftsFilter->getEndTime()->setTime(23,59);
-  }
   $start_day = date("Y-m-d", $shiftsFilter->getStartTime());
   $start_time = date("H:i", $shiftsFilter->getStartTime());
   $end_day = date("Y-m-d", $shiftsFilter->getEndTime());

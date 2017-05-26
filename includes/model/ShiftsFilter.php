@@ -54,6 +54,8 @@ class ShiftsFilter {
     if ($user_shifts_admin) {
       $this->filled[] = ShiftsFilter::FILLED_FILLED;
     }
+
+    $this->startTime = strtotime('today midnight');
   }
 
   public function getStartTime() {
