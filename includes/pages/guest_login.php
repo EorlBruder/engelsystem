@@ -171,6 +171,7 @@ function guest_register() {
           `CreateDate`=NOW(),
           `Sprache`='" . sql_escape($_SESSION["locale"]) . "',
           `arrival_date`=NULL,
+          `Gekommen`=1,
           `Aktiv`=1,
           `planned_arrival_date`='" . sql_escape($planned_arrival_date) . "'");
 
