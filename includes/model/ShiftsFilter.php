@@ -14,7 +14,7 @@ class ShiftsFilter {
    */
   const MAX_DURATION = 86400;
  // one day
-  
+
   /**
    * Shift is completely full.
    */
@@ -38,19 +38,19 @@ class ShiftsFilter {
 
   private $types = [];
 
-  private $startTime = null;
+  private $startTime = "00:00";
 
-  private $endTime = null;
+  private $endTime = "23:59";
 
   public function __construct($user_shifts_admin, $rooms, $types) {
     $this->user_shifts_admin = $user_shifts_admin;
     $this->rooms = $rooms;
     $this->types = $types;
-    
+
     $this->filled = [
-        ShiftsFilter::FILLED_FREE 
+        ShiftsFilter::FILLED_FREE
     ];
-    
+
     if ($user_shifts_admin) {
       $this->filled[] = ShiftsFilter::FILLED_FILLED;
     }
@@ -78,7 +78,7 @@ class ShiftsFilter {
   public function getTypes() {
     if (count($this->types) == 0) {
       return [
-          0 
+          0
       ];
     }
     return $this->types;
@@ -91,7 +91,7 @@ class ShiftsFilter {
   public function getRooms() {
     if (count($this->rooms) == 0) {
       return [
-          0 
+          0
       ];
     }
     return $this->rooms;

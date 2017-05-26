@@ -14,11 +14,11 @@ function shifts_title() {
  */
 function user_shifts() {
   global $user;
-  
+
   if (User_is_freeloader($user)) {
     redirect(page_link_to('user_myshifts'));
   }
-  
+
   // Löschen einzelner Schicht-Einträge (Also Belegung einer Schicht von Engeln) durch Admins
   if (isset($_REQUEST['entry_id'])) {
     return shift_entry_delete_controller();
@@ -44,15 +44,15 @@ function update_ShiftsFilter_timerange(ShiftsFilter $shiftsFilter, $days) {
   if ($start_time == null) {
     $start_time = time();
   }
-  
+
   $end_time = $shiftsFilter->getEndTime();
   if ($end_time == null) {
     $end_time = $start_time + 24 * 60 * 60;
   }
-  
+
   $shiftsFilter->setStartTime(check_request_datetime('start_day', 'start_time', $days, $start_time));
   $shiftsFilter->setEndTime(check_request_datetime('end_day', 'end_time', $days, $end_time));
-  
+
   if ($shiftsFilter->getStartTime() > $shiftsFilter->getEndTime()) {
     $shiftsFilter->setEndTime($shiftsFilter->getStartTime() + 24 * 60 * 60);
   }
@@ -99,7 +99,7 @@ function load_days() {
 
 function load_types() {
   global $user;
-  
+
   if (sql_num_query("SELECT `id`, `name` FROM `AngelTypes` WHERE `restricted` = 0") == 0) {
     error(_("The administration has not configured any angeltypes yet - or you are not subscribed to any angeltype."));
     redirect('?');
@@ -114,43 +114,41 @@ function load_types() {
 function view_user_shifts() {
   global $user, $privileges;
   global $ical_shifts;
-  
+
   $ical_shifts = [];
   $days = load_days();
   $rooms = load_rooms();
   $types = load_types();
-  
+
   if (! isset($_SESSION['ShiftsFilter'])) {
-    $room_ids = [
-        $rooms[0]['id'] 
-    ];
+    $room_ids = array_map('get_ids_from_array', $rooms);
     $type_ids = array_map('get_ids_from_array', $types);
     $_SESSION['ShiftsFilter'] = new ShiftsFilter(in_array('user_shifts_admin', $privileges), $room_ids, $type_ids);
   }
   update_ShiftsFilter($_SESSION['ShiftsFilter'], in_array('user_shifts_admin', $privileges), $days);
   $shiftsFilter = $_SESSION['ShiftsFilter'];
-  
+
   $shiftCalendarRenderer = shiftCalendarRendererByShiftFilter($shiftsFilter);
-  
+
   if ($user['api_key'] == "") {
     User_reset_api_key($user, false);
   }
-  
+
   $filled = [
       [
           'id' => '1',
-          'name' => _("occupied") 
+          'name' => _("occupied")
       ],
       [
           'id' => '0',
-          'name' => _("free") 
-      ] 
+          'name' => _("free")
+      ]
   ];
   $start_day = date("Y-m-d", $shiftsFilter->getStartTime());
   $start_time = date("H:i", $shiftsFilter->getStartTime());
   $end_day = date("Y-m-d", $shiftsFilter->getEndTime());
   $end_time = date("H:i", $shiftsFilter->getEndTime());
-  
+
   return page([
       div('col-md-12', [
           msg(),
@@ -166,9 +164,9 @@ function view_user_shifts() {
               'task_notice' => '<sup>1</sup>' . _("The tasks shown here are influenced by the angeltypes you joined already!") . " <a href=\"" . page_link_to('angeltypes') . '&action=about' . "\">" . _("Description of the jobs.") . "</a>",
               'shifts_table' => msg() . $shiftCalendarRenderer->render(),
               'ical_text' => '<h2>' . _("iCal export") . '</h2><p>' . sprintf(_("Export of shown shifts. <a href=\"%s\">iCal format</a> or <a href=\"%s\">JSON format</a> available (please keep secret, otherwise <a href=\"%s\">reset the api key</a>)."), page_link_to_absolute('ical') . '&key=' . $user['api_key'], page_link_to_absolute('shifts_json_export') . '&key=' . $user['api_key'], page_link_to('user_myshifts') . '&reset') . '</p>',
-              'filter' => _("Filter") 
-          ]) 
-      ]) 
+              'filter' => _("Filter")
+          ])
+      ])
   ]);
 }
 
@@ -181,7 +179,7 @@ function make_select($items, $selected, $name, $title = null) {
   if (isset($title)) {
     $html_items[] = '<h4>' . $title . '</h4>' . "\n";
   }
-  
+
   foreach ($items as $i) {
     $html_items[] = '<div class="checkbox"><label><input type="checkbox" name="' . $name . '[]" value="' . $i['id'] . '"' . (in_array($i['id'], $selected) ? ' checked="checked"' : '') . '> ' . $i['name'] . '</label>' . (! isset($i['enabled']) || $i['enabled'] ? '' : glyph("lock")) . '</div><br />';
   }
@@ -189,7 +187,7 @@ function make_select($items, $selected, $name, $title = null) {
   $html .= implode("\n", $html_items);
   $html .= buttons([
       button("javascript: checkAll('selection_" . $name . "', true)", _("All"), ""),
-      button("javascript: checkAll('selection_" . $name . "', false)", _("None"), "") 
+      button("javascript: checkAll('selection_" . $name . "', false)", _("None"), "")
   ]);
   $html .= '</div>' . "\n";
   return $html;
