@@ -12,7 +12,7 @@ class ShiftsFilter {
   /**
    * How long can the time interval be?
    */
-  const MAX_DURATION = 86400;
+  const ONE_DAY = 86340;
  // one day
 
   /**
@@ -56,7 +56,7 @@ class ShiftsFilter {
     }
 
     $this->startTime = strtotime('today midnight');
-    $this->endTime = $this->startTime + ShiftsFilter::MAX_DURATION;
+    $this->endTime = $this->startTime + ShiftsFilter::ONE_DAY;
   }
 
   public function getStartTime() {
@@ -72,9 +72,6 @@ class ShiftsFilter {
   }
 
   public function setEndTime($endTime) {
-    if ($endTime - $this->startTime > ShiftsFilter::MAX_DURATION) {
-      $endTime = $this->startTime + ShiftsFilter::MAX_DURATION;
-    }
     $this->endTime = $endTime;
   }
 
