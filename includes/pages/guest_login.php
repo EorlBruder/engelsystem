@@ -27,8 +27,8 @@ function guest_register() {
   $dect = "";
   $mobile = "";
   $mail = "";
-  $email_shiftinfo = false;
-  $email_by_human_allowed = false;
+  $email_shiftinfo = true;
+  $email_by_human_allowed = true;
   $jabber = "";
   $hometown = "";
   $comment = "";
