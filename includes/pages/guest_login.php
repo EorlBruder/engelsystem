@@ -35,7 +35,7 @@ function guest_register() {
   $tshirt_size = '';
   $password_hash = "";
   $selected_angel_types = [];
-  $planned_arrival_date = today();
+  $planned_arrival_date = date();
 
   $angel_types_source = AngelTypes();
   $angel_types = [];
@@ -233,9 +233,6 @@ function guest_register() {
                       ])
                   ]),
                   div('row', [
-                      div('col-sm-6', [
-                          form_date('planned_arrival_date', _("Planned date of arrival") , $planned_arrival_date, $buildup_start_date, $teardown_end_date)
-                      ]),
                       div('col-sm-6', [
                           $enable_tshirt_size ? form_select('tshirt_size', _("Shirt size") . ' ' . entry_required(), $tshirt_sizes, $tshirt_size) : ''
                       ])
