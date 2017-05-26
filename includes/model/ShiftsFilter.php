@@ -38,9 +38,9 @@ class ShiftsFilter {
 
   private $types = [];
 
-  private $startTime = "00:00";
+  private $startTime = null;
 
-  private $endTime = "23:59";
+  private $endTime = null;
 
   public function __construct($user_shifts_admin, $rooms, $types) {
     $this->user_shifts_admin = $user_shifts_admin;
