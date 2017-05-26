@@ -233,11 +233,11 @@ function guest_register() {
                       ])
                   ]),
                   div('row', [
-                      // div('col-sm-6', [
-                      //     form_date('planned_arrival_date', _("Planned date of arrival") . ' ' . entry_required(), $planned_arrival_date, $buildup_start_date, $teardown_end_date)
-                      // ]),
                       div('col-sm-6', [
                           $enable_tshirt_size ? form_select('tshirt_size', _("Shirt size") . ' ' . entry_required(), $tshirt_sizes, $tshirt_size) : ''
+                      ]),
+                      div('col-sm-6', [
+                          ''
                       ])
                   ]),
                   div('row', [
