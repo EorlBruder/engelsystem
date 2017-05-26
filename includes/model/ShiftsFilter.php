@@ -56,6 +56,7 @@ class ShiftsFilter {
     }
 
     $this->startTime = strtotime('today midnight');
+    $this->$endTime = $this->startTime + ShiftsFilter::MAX_DURATION;
   }
 
   public function getStartTime() {
