@@ -237,7 +237,7 @@ function guest_register() {
                           $enable_tshirt_size ? form_select('tshirt_size', _("Shirt size") . ' ' . entry_required(), $tshirt_sizes, $tshirt_size) : ''
                       ]),
                       div('col-sm-6', [
-                          ''
+                          form_date('planned_arrival_date', _("Planned date of arrival") , $planned_arrival_date, $buildup_start_date, $teardown_end_date)
                       ])
                   ]),
                   div('row', [
